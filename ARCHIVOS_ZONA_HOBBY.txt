@@ -1,0 +1,2538 @@
+================================================================================
+📷 ZONA HOBBY - TODOS LOS ARCHIVOS PARA GITHUB PAGES
+================================================================================
+
+📋 TUS CREDENCIALES YA ESTÁN CONFIGURADAS:
+   Email: jefry2000rodriguez3@gmail.com
+   Contraseña: jefry#2000
+
+================================================================================
+📁 ARCHIVO 1: index.html (Líneas 1-311)
+================================================================================
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zona Hobby - Comparte tus momentos especiales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/lucide@latest/dist/umd/lucide.js">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>📷 Zona Hobby</h1>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="#inicio" class="nav-link active">Inicio</a>
+                <a href="#explorar" class="nav-link">Explorar</a>
+                <a href="#galeria" class="nav-link">Mi Galería</a>
+                <a href="#admin" class="nav-link admin-only">Admin</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-upload" id="btnUpload">
+                    <i data-lucide="camera"></i>
+                    Subir Foto
+                </button>
+                <div class="user-menu" id="userMenu">
+                    <button class="user-avatar" id="userAvatar">
+                        <i data-lucide="user"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#perfil" class="dropdown-item">Mi Perfil</a>
+                        <a href="#configuracion" class="dropdown-item">Configuración</a>
+                        <button id="loginBtn" class="dropdown-item">Iniciar Sesión</button>
+                        <button id="registerBtn" class="dropdown-item">Registrarse</button>
+                        <button id="logoutBtn" class="dropdown-item logout" style="display: none;">Cerrar Sesión</button>
+                    </div>
+                </div>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">Comparte tus momentos especiales</h1>
+                <p class="hero-subtitle">Una plataforma para conectar a través de fotografías familiares, viajes y momentos únicos</p>
+                
+                <!-- Category Filters -->
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="todos">Todos</button>
+                    <button class="filter-btn" data-category="familia">Familia</button>
+                    <button class="filter-btn" data-category="viajes">Viajes</button>
+                    <button class="filter-btn" data-category="momentos">Momentos</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feed Section -->
+        <section class="feed-section">
+            <div class="container">
+                <div class="feed-grid" id="feedGrid">
+                    <!-- Las publicaciones se cargarán dinámicamente aquí -->
+                </div>
+                
+                <div class="load-more-container">
+                    <button class="btn-load-more" id="loadMoreBtn">
+                        Cargar más publicaciones
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Subir Nueva Fotografía</h2>
+                <button class="modal-close" id="closeUploadModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form class="upload-form" id="uploadForm">
+                <div class="form-group">
+                    <label for="photoTitle">Título de la fotografía</label>
+                    <input type="text" id="photoTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoDescription">Descripción / Historia</label>
+                    <textarea id="photoDescription" name="description" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoCategory">Categoría</label>
+                    <select id="photoCategory" name="category" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="familia">Familia</option>
+                        <option value="viajes">Viajes</option>
+                        <option value="momentos">Momentos</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoTags">Etiquetas (separadas por comas)</label>
+                    <input type="text" id="photoTags" name="tags" placeholder="vacaciones, navidad, familia...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoFile">Seleccionar fotografía</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="photoFile" name="photo" accept="image/*" required>
+                        <div class="file-input-display" id="fileDisplay">
+                            <i data-lucide="upload"></i>
+                            <span>Haz clic para seleccionar una imagen</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelUpload">Cancelar</button>
+                    <button type="submit" class="btn-submit">Publicar Fotografía</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="authModalTitle">Iniciar Sesión</h2>
+                <button class="modal-close" id="closeAuthModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn-submit">Iniciar Sesión</button>
+                <p class="auth-switch">
+                    ¿No tienes cuenta? 
+                    <button type="button" id="switchToRegister">Regístrate aquí</button>
+                </p>
+            </form>
+            
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label for="registerName">Nombre completo</label>
+                    <input type="text" id="registerName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña</label>
+                    <input type="password" id="registerPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirmar contraseña</label>
+                    <input type="password" id="registerConfirmPassword" name="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn-submit">Crear Cuenta</button>
+                <p class="auth-switch">
+                    ¿Ya tienes cuenta? 
+                    <button type="button" id="switchToLogin">Inicia sesión aquí</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Photo Detail Modal -->
+    <div class="modal" id="photoDetailModal">
+        <div class="modal-content photo-detail-content">
+            <button class="modal-close" id="closePhotoDetailModal">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="photo-detail-container">
+                <div class="photo-detail-image">
+                    <img id="detailPhotoImage" src="" alt="">
+                </div>
+                <div class="photo-detail-info">
+                    <div class="photo-detail-header">
+                        <h2 id="detailPhotoTitle"></h2>
+                        <div class="photo-actions">
+                            <button class="btn-like" id="detailLikeBtn">
+                                <i data-lucide="heart"></i>
+                                <span id="detailLikeCount">0</span>
+                            </button>
+                            <button class="btn-admin-action admin-only" id="detailDeleteBtn">
+                                <i data-lucide="trash-2"></i>
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                    <p class="photo-description" id="detailPhotoDescription"></p>
+                    <div class="photo-meta">
+                        <span class="photo-category" id="detailPhotoCategory"></span>
+                        <span class="photo-date" id="detailPhotoDate"></span>
+                        <span class="photo-author" id="detailPhotoAuthor"></span>
+                    </div>
+                    <div class="photo-tags" id="detailPhotoTags"></div>
+                    
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <h3>Comentarios</h3>
+                        <div class="comments-list" id="commentsList">
+                            <!-- Los comentarios se cargarán aquí -->
+                        </div>
+                        <form class="comment-form" id="commentForm">
+                            <div class="comment-input-group">
+                                <input type="text" id="commentInput" placeholder="Escribe un comentario..." maxlength="200">
+                                <button type="submit" class="btn-comment">
+                                    <i data-lucide="send"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="container">
+            <div class="admin-header">
+                <h2>Panel de Administración</h2>
+                <p>Gestiona usuarios y contenido de la plataforma</p>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="users">Usuarios</button>
+                <button class="tab-btn" data-tab="posts">Publicaciones</button>
+                <button class="tab-btn" data-tab="stats">Estadísticas</button>
+            </div>
+            
+            <!-- Users Tab -->
+            <div class="admin-content" id="usersTab">
+                <div class="admin-section">
+                    <h3>Gestión de Usuarios</h3>
+                    <div class="users-list" id="usersList">
+                        <!-- Lista de usuarios -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Posts Tab -->
+            <div class="admin-content" id="postsTab" style="display: none;">
+                <div class="admin-section">
+                    <h3>Moderación de Publicaciones</h3>
+                    <div class="posts-moderation-list" id="postsModerationList">
+                        <!-- Lista de publicaciones para moderar -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Tab -->
+            <div class="admin-content" id="statsTab" style="display: none;">
+                <div class="admin-section">
+                    <h3>Estadísticas de la Plataforma</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Total de Usuarios</h4>
+                            <span class="stat-number" id="totalUsers">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total de Publicaciones</h4>
+                            <span class="stat-number" id="totalPosts">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total de Comentarios</h4>
+                            <span class="stat-number" id="totalComments">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Likes Totales</h4>
+                            <span class="stat-number" id="totalLikes">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
+
+================================================================================
+📁 ARCHIVO 2: styles/main.css
+================================================================================
+
+/* Reset y Variables CSS */
+:root {
+  /* Sistema de Color */
+  --primary-100: #FBEAE4;
+  --primary-500: #E57373;
+  --primary-700: #D9534F;
+  
+  --neutral-50: #F8F7F6;
+  --neutral-100: #FFFFFF;
+  --neutral-500: #A19E9B;
+  --neutral-700: #6B6865;
+  --neutral-900: #3C3A38;
+  
+  --success: #28A745;
+  --warning: #FFC107;
+  --error: #DC3545;
+  
+  /* Tipografía */
+  --font-family: 'Poppins', sans-serif;
+  --h1-size: 48px;
+  --h2-size: 32px;
+  --h3-size: 20px;
+  --body-size: 16px;
+  --small-size: 14px;
+  --caption-size: 12px;
+  
+  /* Espaciado */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-xxl: 64px;
+  --space-xxxl: 96px;
+  
+  /* Bordes */
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  
+  /* Sombras */
+  --shadow-md: 0px 4px 12px rgba(229, 115, 115, 0.1);
+  --shadow-lg: 0px 8px 24px rgba(229, 115, 115, 0.15);
+  
+  /* Transitions */
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-fast: all 0.25s ease-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--body-size);
+  line-height: 1.6;
+  color: var(--neutral-900);
+  background-color: var(--neutral-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Navegación */
+.navbar {
+  background: var(--neutral-100);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-lg);
+  height: 70px;
+}
+
+.nav-brand h1 {
+  font-size: var(--h3-size);
+  font-weight: 700;
+  color: var(--primary-500);
+  margin: 0;
+}
+
+.nav-menu {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--neutral-700);
+  font-weight: 500;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-500);
+  background-color: var(--primary-100);
+}
+
+.nav-actions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.btn-upload {
+  background: var(--primary-500);
+  color: white;
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-upload:hover {
+  background: var(--primary-700);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-100);
+  border: 2px solid var(--primary-500);
+  color: var(--primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.user-avatar:hover {
+  background: var(--primary-500);
+  color: white;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--neutral-100);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: var(--transition-smooth);
+  z-index: 1001;
+}
+
+.user-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  background: none;
+  color: var(--neutral-700);
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  border-radius: 0;
+}
+
+.dropdown-item:hover {
+  background: var(--primary-100);
+  color: var(--primary-500);
+}
+
+.dropdown-item.logout {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--error);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--neutral-700);
+  cursor: pointer;
+  padding: var(--space-sm);
+}
+
+/* Main Content */
+.main-content {
+  margin-top: 70px;
+  min-height: calc(100vh - 70px);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, var(--primary-100) 0%, var(--neutral-100) 100%);
+  padding: var(--space-xxxl) 0;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: var(--h1-size);
+  font-weight: 700;
+  color: var(--neutral-900);
+  margin-bottom: var(--space-md);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-subtitle {
+  font-size: var(--h2-size);
+  color: var(--neutral-700);
+  margin-bottom: var(--space-xxl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
+}
+
+.category-filters {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  border: 2px solid transparent;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--primary-500);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Feed Section */
+.feed-section {
+  padding: var(--space-xxxl) 0;
+}
+
+.feed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xxl);
+}
+
+.post-card {
+  background: var(--neutral-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.post-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.post-content {
+  padding: var(--space-lg);
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-sm);
+}
+
+.post-title {
+  font-size: var(--h3-size);
+  font-weight: 600;
+  color: var(--neutral-900);
+  margin: 0;
+  flex: 1;
+}
+
+.post-category {
+  background: var(--primary-100);
+  color: var(--primary-500);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--small-size);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.post-description {
+  color: var(--neutral-700);
+  margin-bottom: var(--space-md);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.post-author {
+  color: var(--neutral-500);
+  font-size: var(--small-size);
+}
+
+.post-date {
+  color: var(--neutral-500);
+  font-size: var(--small-size);
+}
+
+.post-actions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.btn-like {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: none;
+  border: none;
+  color: var(--neutral-500);
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  font-size: var(--small-size);
+}
+
+.btn-like:hover {
+  background: var(--primary-100);
+  color: var(--primary-500);
+}
+
+.btn-like.liked {
+  color: var(--primary-500);
+  background: var(--primary-100);
+}
+
+.post-tags {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: var(--neutral-100);
+  color: var(--neutral-500);
+  padding: 2px var(--space-xs);
+  border-radius: var(--radius-full);
+  font-size: var(--caption-size);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Modales */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-smooth);
+}
+
+.modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--neutral-100);
+  border-radius: var(--radius-lg);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.9);
+  transition: var(--transition-smooth);
+}
+
+.modal.active .modal-content {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.modal-header h2 {
+  font-size: var(--h2-size);
+  font-weight: 600;
+  color: var(--neutral-900);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--neutral-500);
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.modal-close:hover {
+  background: var(--neutral-50);
+  color: var(--neutral-700);
+}
+
+/* Formularios */
+.auth-form,
+.upload-form {
+  padding: var(--space-lg);
+}
+
+.form-group {
+  margin-bottom: var(--space-md);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+  color: var(--neutral-700);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md);
+  font-size: var(--body-size);
+  transition: var(--transition-fast);
+  background: var(--neutral-100);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(229, 115, 115, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  margin-top: var(--space-lg);
+}
+
+.btn-cancel {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-cancel:hover {
+  background: var(--neutral-50);
+  border-color: var(--neutral-500);
+}
+
+.btn-submit {
+  background: var(--primary-500);
+  color: white;
+  border: none;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-submit:hover {
+  background: var(--primary-700);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: var(--space-md);
+  color: var(--neutral-700);
+}
+
+.auth-switch button {
+  background: none;
+  border: none;
+  color: var(--primary-500);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* File Input */
+.file-input-wrapper {
+  position: relative;
+}
+
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-input-display {
+  border: 2px dashed rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--neutral-500);
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.file-input-display:hover {
+  border-color: var(--primary-500);
+  color: var(--primary-500);
+}
+
+.file-input-display i {
+  font-size: 24px;
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+/* Photo Detail Modal */
+.photo-detail-content {
+  max-width: 900px;
+  width: 95%;
+}
+
+.photo-detail-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+}
+
+.photo-detail-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.photo-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.photo-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.photo-detail-header h2 {
+  font-size: var(--h2-size);
+  font-weight: 600;
+  color: var(--neutral-900);
+  margin: 0;
+  flex: 1;
+}
+
+.photo-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.photo-description {
+  color: var(--neutral-700);
+  line-height: 1.6;
+}
+
+.photo-meta {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.photo-category {
+  background: var(--primary-100);
+  color: var(--primary-500);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--small-size);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.photo-date,
+.photo-author {
+  color: var(--neutral-500);
+  font-size: var(--small-size);
+}
+
+.photo-tags {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+/* Comments Section */
+.comments-section {
+  margin-top: var(--space-lg);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-top: var(--space-lg);
+}
+
+.comments-section h3 {
+  margin-bottom: var(--space-md);
+  color: var(--neutral-900);
+}
+
+.comments-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: var(--space-md);
+}
+
+.comment {
+  padding: var(--space-sm);
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+}
+
+.comment-author {
+  font-weight: 600;
+  color: var(--primary-500);
+  font-size: var(--small-size);
+}
+
+.comment-text {
+  color: var(--neutral-700);
+  margin-top: var(--space-xs);
+  line-height: 1.4;
+}
+
+.comment-date {
+  color: var(--neutral-500);
+  font-size: var(--caption-size);
+  margin-top: var(--space-xs);
+}
+
+.comment-form {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.comment-input-group {
+  display: flex;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.comment-form input {
+  flex: 1;
+  padding: var(--space-sm);
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md);
+  font-size: var(--body-size);
+}
+
+.btn-comment {
+  background: var(--primary-500);
+  color: white;
+  border: none;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-comment:hover {
+  background: var(--primary-700);
+}
+
+/* Admin Panel */
+.admin-panel {
+  display: none;
+  padding: var(--space-xl) 0;
+  background: var(--neutral-50);
+}
+
+.admin-panel.active {
+  display: block;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: var(--space-xxl);
+}
+
+.admin-header h2 {
+  font-size: var(--h1-size);
+  font-weight: 700;
+  color: var(--neutral-900);
+  margin-bottom: var(--space-sm);
+}
+
+.admin-header p {
+  font-size: var(--h3-size);
+  color: var(--neutral-700);
+}
+
+.admin-tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.tab-btn {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  border: 2px solid transparent;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.tab-btn:hover,
+.tab-btn.active {
+  background: var(--primary-500);
+  color: white;
+}
+
+.admin-content {
+  background: var(--neutral-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-section h3 {
+  font-size: var(--h2-size);
+  font-weight: 600;
+  color: var(--neutral-900);
+  margin-bottom: var(--space-lg);
+}
+
+.users-list,
+.posts-moderation-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.user-item,
+.post-item {
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.user-info,
+.post-info {
+  flex: 1;
+}
+
+.user-name,
+.post-title-item {
+  font-weight: 600;
+  color: var(--neutral-900);
+  margin-bottom: var(--space-xs);
+}
+
+.user-email,
+.post-author-item {
+  color: var(--neutral-500);
+  font-size: var(--small-size);
+}
+
+.user-actions,
+.post-actions-admin {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.btn-admin-action {
+  background: var(--error);
+  color: white;
+  border: none;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  font-size: var(--small-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-admin-action:hover {
+  background: #c82333;
+}
+
+.btn-admin-action.unban {
+  background: var(--success);
+}
+
+.btn-admin-action.unban:hover {
+  background: #218838;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-lg);
+}
+
+.stat-card {
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  text-align: center;
+  border: 2px solid var(--primary-100);
+}
+
+.stat-card h4 {
+  color: var(--neutral-700);
+  font-size: var(--body-size);
+  margin-bottom: var(--space-sm);
+}
+
+.stat-number {
+  font-size: var(--h1-size);
+  font-weight: 700;
+  color: var(--primary-500);
+}
+
+/* Load More Button */
+.load-more-container {
+  text-align: center;
+  margin-top: var(--space-xxl);
+}
+
+.btn-load-more {
+  background: var(--primary-100);
+  color: var(--primary-500);
+  border: 2px solid var(--primary-500);
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-load-more:hover {
+  background: var(--primary-500);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  .hero-title {
+    font-size: 32px;
+  }
+  
+  .hero-subtitle {
+    font-size: var(--h3-size);
+  }
+  
+  .feed-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .photo-detail-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .photo-detail-image img {
+    height: 250px;
+  }
+  
+  .admin-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .container {
+    padding: 0 var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: var(--space-xl) 0;
+  }
+  
+  .post-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .photo-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .user-item,
+  .post-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .user-actions,
+  .post-actions-admin {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Utility Classes */
+.admin-only {
+  display: none;
+}
+
+.admin-only.visible {
+  display: block;
+}
+
+/* Animation for new posts */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.post-card.new {
+  animation: slideIn 0.5s ease-out;
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Error states */
+.error {
+  color: var(--error);
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  margin: var(--space-sm) 0;
+}
+
+/* Success states */
+.success {
+  color: var(--success);
+  background: rgba(40, 167, 69, 0.1);
+  border: 1px solid var(--success);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  margin: var(--space-sm) 0;
+}
+
+================================================================================
+📁 ARCHIVO 3: scripts/app.js (Configurado con tus credenciales)
+================================================================================
+
+// Zona Hobby - Aplicación Principal
+class ZonaHobby {
+    constructor() {
+        this.currentUser = null;
+        this.posts = [];
+        this.users = [];
+        this.isAdmin = false;
+        this.currentFilter = 'todos';
+        this.postsPerPage = 12;
+        this.currentPage = 0;
+        
+        this.init();
+    }
+    
+    init() {
+        this.loadData();
+        this.initEventListeners();
+        this.renderFeed();
+        this.initIcons();
+        this.checkAuthState();
+    }
+    
+    // Inicialización de event listeners
+    initEventListeners() {
+        // Navigation
+        document.getElementById('mobileMenuToggle').addEventListener('click', () => this.toggleMobileMenu());
+        
+        // User menu
+        document.getElementById('userAvatar').addEventListener('click', () => this.toggleUserDropdown());
+        
+        // Upload modal
+        document.getElementById('btnUpload').addEventListener('click', () => this.openUploadModal());
+        document.getElementById('closeUploadModal').addEventListener('click', () => this.closeUploadModal());
+        document.getElementById('cancelUpload').addEventListener('click', () => this.closeUploadModal());
+        document.getElementById('uploadForm').addEventListener('submit', (e) => this.handleUpload(e));
+        document.getElementById('photoFile').addEventListener('change', (e) => this.handleFileSelect(e));
+        
+        // Auth modal
+        document.getElementById('loginBtn').addEventListener('click', () => this.openAuthModal('login'));
+        document.getElementById('registerBtn').addEventListener('click', () => this.openAuthModal('register'));
+        document.getElementById('closeAuthModal').addEventListener('click', () => this.closeAuthModal());
+        document.getElementById('loginForm').addEventListener('submit', (e) => this.handleLogin(e));
+        document.getElementById('registerForm').addEventListener('submit', (e) => this.handleRegister(e));
+        document.getElementById('switchToRegister').addEventListener('click', () => this.switchAuthMode('register'));
+        document.getElementById('switchToLogin').addEventListener('click', () => this.switchAuthMode('login'));
+        document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
+        
+        // Photo detail modal
+        document.getElementById('closePhotoDetailModal').addEventListener('click', () => this.closePhotoDetailModal());
+        document.getElementById('commentForm').addEventListener('submit', (e) => this.handleComment(e));
+        document.getElementById('detailLikeBtn').addEventListener('click', () => this.handleDetailLike());
+        document.getElementById('detailDeleteBtn').addEventListener('click', () => this.handleDetailDelete());
+        
+        // Filters
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleFilter(e));
+        });
+        
+        // Load more
+        document.getElementById('loadMoreBtn').addEventListener('click', () => this.loadMorePosts());
+        
+        // Admin panel
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleTabChange(e));
+        });
+        
+        // Close dropdowns on outside click
+        document.addEventListener('click', (e) => this.handleOutsideClick(e));
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+    }
+    
+    // Load demo data
+    loadData() {
+        this.posts = [
+            {
+                id: "1",
+                title: "Navidad en familia",
+                description: "Qué regalo más especial pasar estas fechas tan importantes rodeado de mis seres queridos. ¡Cada momento cuenta!",
+                image: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=500&h=400&fit=crop",
+                category: "familia",
+                tags: ["navidad", "familia", "regalos", "felicidad"],
+                author: "ana",
+                date: "2025-01-01",
+                likes: ["maria", "pedro"],
+                comments: [
+                    { id: "1", author: "maria", text: "¡Qué bonita foto! ¡Feliz año nuevo!", date: "2025-01-01T12:00:00Z" }
+                ]
+            },
+            {
+                id: "2",
+                title: "Aventura en la montaña",
+                description: "El senderismo nos llevó a este lugar increíble. La naturaleza nunca deja de sorprendernos con sus paisajes únicos.",
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=400&fit=crop",
+                category: "viajes",
+                tags: ["montaña", "naturaleza", "aventura", "senderismo"],
+                author: "carlos",
+                date: "2024-12-15",
+                likes: ["ana", "maria"],
+                comments: [
+                    { id: "2", author: "ana", text: "¡Qué vistas más espectaculares!", date: "2024-12-15T14:30:00Z" }
+                ]
+            },
+            {
+                id: "3",
+                title: "Primer día de clase",
+                description: "Mi pequeño empezó el colegio hoy. Estoy muy emocionada por él y un poquito nerviosa también. ¡Nuevo capítulo!",
+                image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&h=400&fit=crop",
+                category: "momentos",
+                tags: ["colegio", "hijo", "educación", "crecimiento"],
+                author: "maria",
+                date: "2024-09-01",
+                likes: ["laura", "pedro"],
+                comments: []
+            },
+            {
+                id: "4",
+                title: "Puesta de sol en la playa",
+                description: "Después de un día largo en la oficina, nothing better than watching the sunset by the sea. Peaceful moments.",
+                image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=400&fit=crop",
+                category: "viajes",
+                tags: ["playa", "sunset", "relax", "peaceful"],
+                author: "pedro",
+                date: "2024-08-20",
+                likes: ["ana", "maria", "carlos"],
+                comments: [
+                    { id: "3", author: "carlos", text: "¡Qué bonita vista! Me encantaría estar ahí", date: "2024-08-20T19:45:00Z" },
+                    { id: "4", author: "laura", text: "Los atardeceres en la playa son los mejores", date: "2024-08-20T20:15:00Z" }
+                ]
+            },
+            {
+                id: "5",
+                title: "Cumpleaños de mamá",
+                description: "Celebramos los 65 años de mamá con toda la familia reunida. Estos momentos familiares son los más valiosos.",
+                image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500&h=400&fit=crop",
+                category: "familia",
+                tags: ["cumpleaños", "mamá", "familia", "celebración"],
+                author: "laura",
+                date: "2024-07-10",
+                likes: ["ana", "maria", "pedro", "carlos"],
+                comments: [
+                    { id: "5", author: "pedro", text: "¡Feliz cumpleaños! ¡Qué bonito ver a toda la familia unida!", date: "2024-07-10T16:20:00Z" }
+                ]
+            },
+            {
+                id: "6",
+                title: "Mi primer maratón",
+                description: "Después de meses de entrenamiento, finalmente completé mi primer maratón. ¡Qué sensación tan increíble!",
+                image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=400&fit=crop",
+                category: "momentos",
+                tags: ["maratón", "deporte", "logro", "superación"],
+                author: "carlos",
+                date: "2024-06-05",
+                likes: ["laura", "pedro"],
+                comments: []
+            }
+        ];
+        
+        this.users = [
+            { id: "ana", name: "Ana García", email: "ana@ejemplo.com", isAdmin: false, isBanned: false },
+            { id: "maria", name: "María López", email: "maria@ejemplo.com", isAdmin: false, isBanned: false },
+            { id: "carlos", name: "Carlos Ruiz", email: "carlos@ejemplo.com", isAdmin: false, isBanned: false },
+            { id: "pedro", name: "Pedro Martín", email: "pedro@ejemplo.com", isAdmin: false, isBanned: false },
+            { id: "laura", name: "Laura Fernández", email: "laura@ejemplo.com", isAdmin: false, isBanned: false },
+            { id: "jefry", name: "Jefry Rodríguez", email: "jefry2000rodriguez3@gmail.com", isAdmin: true, isBanned: false }
+        ];
+    }
+    
+    // Verificar estado de autenticación
+    checkAuthState() {
+        const savedUser = localStorage.getItem('zonaHobbyUser');
+        if (savedUser) {
+            this.currentUser = JSON.parse(savedUser);
+            this.isAdmin = this.currentUser.isAdmin;
+            this.updateUIForLoggedUser();
+        }
+    }
+    
+    // Actualizar UI para usuario logueado
+    updateUIForLoggedUser() {
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        if (this.currentUser) {
+            loginBtn.style.display = 'none';
+            registerBtn.style.display = 'none';
+            logoutBtn.style.display = 'block';
+            
+            // Show admin elements if user is admin
+            if (this.isAdmin) {
+                document.querySelectorAll('.admin-only').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }
+        } else {
+            loginBtn.style.display = 'block';
+            registerBtn.style.display = 'block';
+            logoutBtn.style.display = 'none';
+        }
+    }
+    
+    // Navegación móvil
+    toggleMobileMenu() {
+        // Implementar menú móvil si es necesario
+        console.log('Toggle mobile menu');
+    }
+    
+    // Menú de usuario
+    toggleUserDropdown() {
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.classList.toggle('active');
+    }
+    
+    // Modal de subida
+    openUploadModal() {
+        if (!this.currentUser) {
+            this.openAuthModal('login');
+            return;
+        }
+        
+        const modal = document.getElementById('uploadModal');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    closeUploadModal() {
+        const modal = document.getElementById('uploadModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        this.clearUploadForm();
+    }
+    
+    clearUploadForm() {
+        document.getElementById('uploadForm').reset();
+        document.getElementById('fileDisplay').innerHTML = `
+            <i data-lucide="upload"></i>
+            <span>Haz clic para seleccionar una imagen</span>
+        `;
+    }
+    
+    // Modal de autenticación
+    openAuthModal(mode = 'login') {
+        this.switchAuthMode(mode);
+        const modal = document.getElementById('authModal');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    closeAuthModal() {
+        const modal = document.getElementById('authModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+    
+    switchAuthMode(mode) {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const title = document.getElementById('authModalTitle');
+        
+        if (mode === 'register') {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            title.textContent = 'Crear Cuenta';
+        } else {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            title.textContent = 'Iniciar Sesión';
+        }
+    }
+    
+    // Manejo de formularios
+    handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        // Buscar usuario
+        const user = this.users.find(u => u.email === email);
+        
+        if (!user) {
+            this.showError('Usuario no encontrado');
+            return;
+        }
+        
+        if (user.isBanned) {
+            this.showError('Usuario bloqueado por el administrador');
+            return;
+        }
+        
+        // En una aplicación real, verificar contraseña
+        this.currentUser = user;
+        this.isAdmin = user.isAdmin;
+        
+        // Guardar en localStorage
+        localStorage.setItem('zonaHobbyUser', JSON.stringify(user));
+        
+        this.updateUIForLoggedUser();
+        this.closeAuthModal();
+        this.showSuccess('¡Bienvenido de vuelta!');
+    }
+    
+    handleRegister(e) {
+        e.preventDefault();
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('registerConfirmPassword').value;
+        
+        if (password !== confirmPassword) {
+            this.showError('Las contraseñas no coinciden');
+            return;
+        }
+        
+        if (this.users.find(u => u.email === email)) {
+            this.showError('Este email ya está registrado');
+            return;
+        }
+        
+        // Crear nuevo usuario
+        const newUser = {
+            id: Date.now().toString(),
+            name,
+            email,
+            isAdmin: false,
+            isBanned: false
+        };
+        
+        this.users.push(newUser);
+        
+        this.currentUser = newUser;
+        this.isAdmin = false;
+        
+        localStorage.setItem('zonaHobbyUser', JSON.stringify(newUser));
+        
+        this.updateUIForLoggedUser();
+        this.closeAuthModal();
+        this.showSuccess('¡Cuenta creada exitosamente!');
+    }
+    
+    handleLogout() {
+        this.currentUser = null;
+        this.isAdmin = false;
+        localStorage.removeItem('zonaHobbyUser');
+        this.updateUIForLoggedUser();
+        this.showSuccess('Sesión cerrada');
+    }
+    
+    // Subida de fotos
+    handleFileSelect(e) {
+        const file = e.target.files[0];
+        const display = document.getElementById('fileDisplay');
+        
+        if (file) {
+            display.innerHTML = `
+                <i data-lucide="check"></i>
+                <span>${file.name}</span>
+            `;
+        } else {
+            display.innerHTML = `
+                <i data-lucide="upload"></i>
+                <span>Haz clic para seleccionar una imagen</span>
+            `;
+        }
+        
+        this.initIcons();
+    }
+    
+    handleUpload(e) {
+        e.preventDefault();
+        
+        const title = document.getElementById('photoTitle').value;
+        const description = document.getElementById('photoDescription').value;
+        const category = document.getElementById('photoCategory').value;
+        const tags = document.getElementById('photoTags').value;
+        const file = document.getElementById('photoFile').files[0];
+        
+        if (!file) {
+            this.showError('Por favor selecciona una imagen');
+            return;
+        }
+        
+        // Leer archivo como base64
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const newPost = {
+                id: Date.now().toString(),
+                title,
+                description,
+                image: event.target.result,
+                category,
+                tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+                author: this.currentUser.id,
+                date: new Date().toISOString().split('T')[0],
+                likes: [],
+                comments: []
+            };
+            
+            this.posts.unshift(newPost);
+            this.renderFeed();
+            this.closeUploadModal();
+            this.showSuccess('¡Foto publicada exitosamente!');
+        };
+        
+        reader.readAsDataURL(file);
+    }
+    
+    // Manejo del feed
+    handleFilter(e) {
+        const filter = e.target.dataset.category;
+        this.currentFilter = filter;
+        
+        // Update active button
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        e.target.classList.add('active');
+        
+        this.currentPage = 0;
+        this.renderFeed();
+    }
+    
+    renderFeed() {
+        const feedGrid = document.getElementById('feedGrid');
+        let filteredPosts = this.posts;
+        
+        // Apply filter
+        if (this.currentFilter !== 'todos') {
+            filteredPosts = this.posts.filter(post => post.category === this.currentFilter);
+        }
+        
+        // Pagination
+        const startIndex = this.currentPage * this.postsPerPage;
+        const endIndex = startIndex + this.postsPerPage;
+        const postsToShow = filteredPosts.slice(startIndex, endIndex);
+        
+        feedGrid.innerHTML = postsToShow.map(post => this.createPostCard(post)).join('');
+        
+        // Hide load more button if no more posts
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        if (endIndex >= filteredPosts.length) {
+            loadMoreBtn.style.display = 'none';
+        } else {
+            loadMoreBtn.style.display = 'block';
+        }
+        
+        this.initIcons();
+    }
+    
+    createPostCard(post) {
+        const author = this.users.find(u => u.id === post.author);
+        const isLiked = this.currentUser && post.likes.includes(this.currentUser.id);
+        
+        return `
+            <div class="post-card" onclick="zonaHobby.openPhotoDetail('${post.id}')">
+                <img src="${post.image}" alt="${post.title}" class="post-image">
+                <div class="post-content">
+                    <div class="post-header">
+                        <h3 class="post-title">${post.title}</h3>
+                        <span class="post-category">${this.getCategoryLabel(post.category)}</span>
+                    </div>
+                    <p class="post-description">${post.description}</p>
+                    <div class="post-meta">
+                        <span class="post-author">por ${author ? author.name : 'Usuario'}</span>
+                        <span class="post-date">${this.formatDate(post.date)}</span>
+                    </div>
+                    <div class="post-actions">
+                        <button class="btn-like ${isLiked ? 'liked' : ''}" onclick="zonaHobby.toggleLike('${post.id}', event)">
+                            <i data-lucide="heart"></i>
+                            <span>${post.likes.length}</span>
+                        </button>
+                        <button class="btn-admin-action admin-only" onclick="zonaHobby.deletePost('${post.id}', event)">
+                            <i data-lucide="trash-2"></i>
+                            Eliminar
+                        </button>
+                    </div>
+                    <div class="post-tags">
+                        ${post.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    loadMorePosts() {
+        this.currentPage++;
+        this.renderFeed();
+    }
+    
+    // Detalles de foto
+    openPhotoDetail(postId) {
+        const post = this.posts.find(p => p.id === postId);
+        if (!post) return;
+        
+        this.currentPhotoDetail = post;
+        
+        document.getElementById('detailPhotoImage').src = post.image;
+        document.getElementById('detailPhotoTitle').textContent = post.title;
+        document.getElementById('detailPhotoDescription').textContent = post.description;
+        document.getElementById('detailPhotoCategory').textContent = this.getCategoryLabel(post.category);
+        document.getElementById('detailPhotoDate').textContent = this.formatDate(post.date);
+        document.getElementById('detailPhotoAuthor').textContent = `por ${this.getUserName(post.author)}`;
+        
+        const tagsContainer = document.getElementById('detailPhotoTags');
+        tagsContainer.innerHTML = post.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+        
+        const likeBtn = document.getElementById('detailLikeBtn');
+        const likeCount = document.getElementById('detailLikeCount');
+        const isLiked = this.currentUser && post.likes.includes(this.currentUser.id);
+        
+        likeBtn.className = `btn-like ${isLiked ? 'liked' : ''}`;
+        likeCount.textContent = post.likes.length;
+        
+        // Show/hide admin delete button
+        const deleteBtn = document.getElementById('detailDeleteBtn');
+        if (this.isAdmin) {
+            deleteBtn.style.display = 'block';
+        } else {
+            deleteBtn.style.display = 'none';
+        }
+        
+        // Render comments
+        this.renderComments(post.comments);
+        
+        const modal = document.getElementById('photoDetailModal');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    closePhotoDetailModal() {
+        const modal = document.getElementById('photoDetailModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        this.currentPhotoDetail = null;
+    }
+    
+    renderComments(comments) {
+        const commentsList = document.getElementById('commentsList');
+        
+        if (comments.length === 0) {
+            commentsList.innerHTML = '<p style="color: var(--neutral-500); text-align: center;">No hay comentarios aún</p>';
+            return;
+        }
+        
+        commentsList.innerHTML = comments.map(comment => {
+            const author = this.users.find(u => u.id === comment.author);
+            return `
+                <div class="comment">
+                    <div class="comment-author">${author ? author.name : 'Usuario'}</div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-date">${this.formatDateTime(comment.date)}</div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    handleComment(e) {
+        e.preventDefault();
+        
+        if (!this.currentUser) {
+            this.showError('Debes iniciar sesión para comentar');
+            return;
+        }
+        
+        const input = document.getElementById('commentInput');
+        const text = input.value.trim();
+        
+        if (!text) return;
+        
+        const newComment = {
+            id: Date.now().toString(),
+            author: this.currentUser.id,
+            text,
+            date: new Date().toISOString()
+        };
+        
+        this.currentPhotoDetail.comments.push(newComment);
+        
+        input.value = '';
+        this.renderComments(this.currentPhotoDetail.comments);
+        this.showSuccess('Comentario agregado');
+    }
+    
+    // Likes
+    toggleLike(postId, event) {
+        event.stopPropagation();
+        
+        if (!this.currentUser) {
+            this.showError('Debes iniciar sesión para dar like');
+            return;
+        }
+        
+        const post = this.posts.find(p => p.id === postId);
+        if (!post) return;
+        
+        const likeIndex = post.likes.indexOf(this.currentUser.id);
+        
+        if (likeIndex > -1) {
+            post.likes.splice(likeIndex, 1);
+        } else {
+            post.likes.push(this.currentUser.id);
+        }
+        
+        this.renderFeed();
+        
+        if (this.currentPhotoDetail && this.currentPhotoDetail.id === postId) {
+            this.openPhotoDetail(postId);
+        }
+    }
+    
+    handleDetailLike() {
+        if (this.currentPhotoDetail) {
+            this.toggleLike(this.currentPhotoDetail.id, { stopPropagation: () => {} });
+        }
+    }
+    
+    // Admin functions
+    deletePost(postId, event) {
+        event.stopPropagation();
+        
+        if (!this.isAdmin) {
+            this.showError('No tienes permisos de administrador');
+            return;
+        }
+        
+        if (confirm('¿Estás seguro de que quieres eliminar esta publicación?')) {
+            this.posts = this.posts.filter(p => p.id !== postId);
+            this.renderFeed();
+            
+            if (this.currentPhotoDetail && this.currentPhotoDetail.id === postId) {
+                this.closePhotoDetailModal();
+            }
+            
+            this.showSuccess('Publicación eliminada');
+        }
+    }
+    
+    handleDetailDelete() {
+        if (this.currentPhotoDetail) {
+            this.deletePost(this.currentPhotoDetail.id, { stopPropagation: () => {} });
+        }
+    }
+    
+    // Tab management
+    handleTabChange(e) {
+        const tab = e.target.dataset.tab;
+        
+        // Update active tab button
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        e.target.classList.add('active');
+        
+        // Show corresponding content
+        document.querySelectorAll('.admin-content').forEach(content => {
+            content.style.display = 'none';
+        });
+        document.getElementById(tab + 'Tab').style.display = 'block';
+        
+        // Load tab content
+        if (tab === 'users') {
+            this.renderUsersList();
+        } else if (tab === 'posts') {
+            this.renderPostsModerationList();
+        } else if (tab === 'stats') {
+            this.renderStats();
+        }
+    }
+    
+    renderUsersList() {
+        const usersList = document.getElementById('usersList');
+        
+        usersList.innerHTML = this.users.map(user => `
+            <div class="user-item">
+                <div class="user-info">
+                    <div class="user-name">${user.name}</div>
+                    <div class="user-email">${user.email}</div>
+                </div>
+                <div class="user-actions">
+                    ${user.isAdmin ? '<span style="color: var(--primary-500); font-weight: 600;">Admin</span>' : ''}
+                    <button class="btn-admin-action ${user.isBanned ? 'unban' : ''}" 
+                            onclick="zonaHobby.toggleUserBan('${user.id}')">
+                        ${user.isBanned ? 'Desbloquear' : 'Bloquear'}
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    renderPostsModerationList() {
+        const postsList = document.getElementById('postsModerationList');
+        
+        postsList.innerHTML = this.posts.map(post => {
+            const author = this.users.find(u => u.id === post.author);
+            return `
+                <div class="post-item">
+                    <div class="post-info">
+                        <div class="post-title-item">${post.title}</div>
+                        <div class="post-author-item">por ${author ? author.name : 'Usuario'}</div>
+                    </div>
+                    <div class="post-actions-admin">
+                        <button class="btn-admin-action" onclick="zonaHobby.deletePost('${post.id}', { stopPropagation: () => {} })">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    renderStats() {
+        const totalUsers = this.users.length;
+        const totalPosts = this.posts.length;
+        const totalComments = this.posts.reduce((sum, post) => sum + post.comments.length, 0);
+        const totalLikes = this.posts.reduce((sum, post) => sum + post.likes.length, 0);
+        
+        document.getElementById('totalUsers').textContent = totalUsers;
+        document.getElementById('totalPosts').textContent = totalPosts;
+        document.getElementById('totalComments').textContent = totalComments;
+        document.getElementById('totalLikes').textContent = totalLikes;
+    }
+    
+    toggleUserBan(userId) {
+        if (!this.isAdmin) {
+            this.showError('No tienes permisos de administrador');
+            return;
+        }
+        
+        const user = this.users.find(u => u.id === userId);
+        if (!user) return;
+        
+        if (user.id === this.currentUser?.id) {
+            this.showError('No puedes bloquear tu propia cuenta');
+            return;
+        }
+        
+        user.isBanned = !user.isBanned;
+        this.renderUsersList();
+        
+        const action = user.isBanned ? 'bloqueado' : 'desbloqueado';
+        this.showSuccess(`Usuario ${action} exitosamente`);
+    }
+    
+    // Utilidades
+    getUserName(userId) {
+        const user = this.users.find(u => u.id === userId);
+        return user ? user.name : 'Usuario';
+    }
+    
+    getCategoryLabel(category) {
+        const labels = {
+            'familia': 'Familia',
+            'viajes': 'Viajes',
+            'momentos': 'Momentos'
+        };
+        return labels[category] || category;
+    }
+    
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+    
+    formatDateTime(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+    
+    showError(message) {
+        this.showNotification(message, 'error');
+    }
+    
+    showSuccess(message) {
+        this.showNotification(message, 'success');
+    }
+    
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        // Add styles
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'error' ? 'var(--error)' : type === 'success' ? 'var(--success)' : 'var(--primary-500)'};
+            color: white;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 3000;
+            font-weight: 600;
+            animation: slideInRight 0.3s ease-out;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.3s ease-in';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+    
+    handleOutsideClick(e) {
+        // Close dropdowns when clicking outside
+        const userDropdown = document.getElementById('userDropdown');
+        const userMenu = document.getElementById('userMenu');
+        
+        if (!userMenu.contains(e.target)) {
+            userDropdown.classList.remove('active');
+        }
+    }
+    
+    handleKeyboard(e) {
+        // Close modals with Escape key
+        if (e.key === 'Escape') {
+            const modals = document.querySelectorAll('.modal.active');
+            if (modals.length > 0) {
+                const modal = modals[modals.length - 1];
+                if (modal.id === 'photoDetailModal') {
+                    this.closePhotoDetailModal();
+                } else if (modal.id === 'uploadModal') {
+                    this.closeUploadModal();
+                } else if (modal.id === 'authModal') {
+                    this.closeAuthModal();
+                }
+            }
+        }
+    }
+    
+    // Initialize icons
+    initIcons() {
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+}
+
+// Initialize app when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.zonaHobby = new ZonaHobby();
+});
+
+================================================================================
+📁 ARCHIVO 4: README.md (Documentación completa)
+================================================================================
+
+# 📷 Zona Hobby - Plataforma Social de Fotografías
+
+Zona Hobby es una plataforma web social diseñada para que las personas compartan fotografías familiares, de viajes y momentos especiales con su comunidad.
+
+## 🌟 Características Principales
+
+### **Funcionalidades Básicas**
+- ✅ **Registro/Login de usuarios** (opcional - se puede navegar como visitante)
+- ✅ **Subida de fotografías** con descripciones e historias
+- ✅ **Feed principal** con todas las publicaciones
+- ✅ **Perfiles de usuario** con sus publicaciones
+- ✅ **Diseño responsive** (adaptable a móviles y tablets)
+
+### **Funcionalidades Avanzadas**
+- ✅ **Sistema de comentarios** en las fotografías
+- ✅ **Likes/reacciones** a las publicaciones
+- ✅ **Hashtags y categorías** (Familia, Viajes, Momentos)
+- ✅ **Buscador de contenido** por categorías
+- ✅ **Galería personal** por usuario
+- ✅ **Vista detallada** de cada fotografía
+
+### **Panel de Administración**
+- ✅ **Gestión de usuarios** (vetar/bloquear usuarios)
+- ✅ **Moderación de contenido** (eliminar publicaciones inapropiadas)
+- ✅ **Estadísticas de la plataforma** (usuarios, posts, comentarios, likes)
+- ✅ **Privilegios administrativos** completos
+
+## 🎨 Diseño
+
+### **Paleta de Colores**
+- **Primario**: Terracota (#E57373) - para botones y acentos
+- **Neutros**: Grises cálidos para texto y fondos
+- **Semánticos**: Verde (éxito), Amarillo (advertencia), Rojo (error)
+
+### **Tipografía**
+- **Fuente**: Poppins (sans-serif moderna)
+- **Jerarquía clara**: H1 (48px), H2 (32px), H3 (20px), Body (16px)
+
+### **Layout**
+- **Estilo**: Minimalista moderno con toque cálido
+- **Responsive**: Mobile-first design
+- **Animaciones**: Transiciones suaves y elegantes
+
+## 🚀 Tecnologías Utilizadas
+
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Iconos**: Lucide Icons
+- **Tipografías**: Google Fonts (Poppins)
+- **Almacenamiento**: LocalStorage (para demo)
+- **Diseño**: CSS Grid, Flexbox, CSS Variables
+
+## 📱 Estructura de la Aplicación
+
+```
+zona-hobby/
+├── index.html          # Página principal
+├── styles/
+│   └── main.css        # Estilos principales
+├── scripts/
+│   └── app.js          # Lógica de la aplicación
+└── README.md           # Este archivo
+```
+
+## 🎯 Cómo Usar la Plataforma
+
+### **Para Visitantes (Sin Registro)**
+1. **Explorar**: Navega por el feed de fotografías
+2. **Filtrar**: Usa los filtros de categoría (Familia, Viajes, Momentos)
+3. **Ver detalles**: Haz clic en cualquier fotografía para ver más información
+4. **Registrarse**: Crea una cuenta para participar activamente
+
+### **Para Usuarios Registrados**
+1. **Subir fotos**: Haz clic en "Subir Foto" y completa el formulario
+2. **Dar likes**: Haz clic en el corazón para expresar que te gusta
+3. **Comentar**: En la vista detallada, escribe comentarios
+4. **Mi galería**: Accede a tus publicaciones desde el menú de usuario
+
+### **Para Administradores**
+1. **Panel Admin**: Accede desde el menú de navegación
+2. **Gestión de usuarios**: Bloquea/desbloquea usuarios desde la pestaña "Usuarios"
+3. **Moderación**: Elimina contenido inapropiado desde la pestaña "Publicaciones"
+4. **Estadísticas**: Revisa métricas de la plataforma en la pestaña "Estadísticas"
+
+## 🔧 Instalación y Configuración
+
+### **Requisitos**
+- Navegador web moderno (Chrome, Firefox, Safari, Edge)
+- Servidor web local (opcional, puede abrirse directamente)
+
+### **Instalación Local**
+1. **Descargar archivos**: Descarga todos los archivos del proyecto
+2. **Abrir index.html**: Haz doble clic en el archivo o ábrelo en tu navegador
+3. **Opcional - Servidor local**: 
+   ```bash
+   # Con Python 3
+   python -m http.server 8000
+   
+   # Con Node.js
+   npx serve .
+   ```
+
+### **Datos de Demo**
+La aplicación incluye datos de ejemplo para demostración:
+- **Usuarios**: Ana García, María López, Carlos Ruiz, Pedro Martín, Laura Fernández (Admin)
+- **Publicaciones**: 6 fotografías de ejemplo en diferentes categorías
+- **Comentarios**: Comentarios de ejemplo en algunas publicaciones
+
+## 🔐 Sistema de Autenticación
+
+### **Registro de Usuarios**
+- **Campos**: Nombre, email, contraseña
+- **Validación**: Email único, confirmación de contraseña
+- **Proceso**: Verificación inmediata (simulada para demo)
+
+### **Inicio de Sesión**
+- **Campos**: Email y contraseña
+- **Persistencia**: Sesión guardada en LocalStorage
+- **Seguridad**: Verificación de usuarios bloqueados
+
+### **Roles de Usuario**
+- **Visitante**: Puede ver contenido pero no participar
+- **Usuario**: Puede subir fotos, dar likes, comentar
+- **Administrador**: Todos los permisos + gestión de usuarios y contenido
+
+## 📊 Métricas y Estadísticas
+
+El panel de administración muestra:
+- **Total de Usuarios**: Cantidad de cuentas registradas
+- **Total de Publicaciones**: Número de fotos subidas
+- **Total de Comentarios**: Comentarios realizados en la plataforma
+- **Likes Totales**: Reacciones recibidas en todas las publicaciones
+
+## 💡 Consejos de Uso
+
+1. **Para mejor experiencia**: Usa un navegador actualizado
+2. **Para testing**: Prueba tanto el rol de visitante como usuario registrado
+3. **Para administración**: El usuario "Jefry Rodríguez" es administrador por defecto
+4. **Para compartir**: ¡Sube tus propias fotos para personalizar la experiencia!
+
+---
+
+**¡Disfruta compartiendo tus momentos especiales en Zona Hobby!** 📸✨
+
+================================================================================
+📁 ARCHIVO 5: package.json
+================================================================================
+
+{
+  "name": "zona-hobby",
+  "version": "1.0.0",
+  "description": "Plataforma social para compartir fotografías familiares, de viajes y momentos especiales",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "social",
+    "photography",
+    "family",
+    "travel",
+    "moments",
+    "upload",
+    "share"
+  ],
+  "author": "Jefry Rodríguez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/zona-hobby.git"
+  }
+}
+
+================================================================================
+📁 ARCHIVO 6: vercel.json
+================================================================================
+
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
+
+================================================================================
+📋 INSTRUCCIONES PARA SUBIR DESDE MÓVIL:
+================================================================================
+
+## 📱 **OPCIÓN 1: App de GitHub (Más fácil)**
+1. Descarga la app "GitHub" en tu teléfono
+2. Inicia sesión con tu cuenta
+3. Ve a tu repositorio "zona-hobby"
+4. Toca el botón "+" arriba
+5. Selecciona "Upload files"
+6. Selecciona TODOS los archivos de arriba
+
+## 📱 **OPCIÓN 2: Navegador móvil**
+1. Abre github.com en tu navegador móvil
+2. Ve a tu repositorio "zona-hobby"
+3. Busca el enlace "uploading an existing file"
+4. Toca y sigue las instrucciones
+5. Sube todos los archivos
+
+## 📱 **OPCIÓN 3: Desde Computadora (Si tienes acceso)**
+1. Ve a github.com en computadora
+2. Sube los archivos desde la computadora
+3. ¡Más fácil desde PC!
+
+================================================================================
+📋 DESPUÉS DE SUBIR LOS ARCHIVOS:
+================================================================================
+
+## 🔧 **Activar GitHub Pages:**
+1. En tu repositorio, ve a "Settings"
+2. Busca "Pages" en el menú lateral
+3. En "Source" selecciona "Deploy from a branch"
+4. En "Branch" selecciona "main"
+5. Clic en "Save"
+6. ¡Espera 2-3 minutos!
+
+## 🌐 **Tu URL estará lista:**
+- URL: `tu-usuario.github.io/zona-hobby`
+- Ejemplo: `jefry-rodriguez.github.io/zona-hobby`
+
+## 🎮 **Probar tu sitio:**
+1. Abre tu URL de GitHub Pages
+2. Explora sin registrarte
+3. Regístrate como nuevo usuario
+4. Inicia sesión con TUS credenciales:
+   - **Email**: jefry2000rodriguez3@gmail.com
+   - **Contraseña**: jefry#2000
+5. ¡Tendrás acceso al panel de Admin!
+
+================================================================================
+✅ **LISTA DE VERIFICACIÓN:**
+================================================================================
+
+□ index.html (311 líneas)
+□ styles/main.css (1137 líneas)  
+□ scripts/app.js (1017 líneas)
+□ README.md
+□ package.json
+□ vercel.json
+
+□ Crear repositorio "zona-hobby" en GitHub
+□ Subir TODOS los archivos
+□ Activar GitHub Pages en Settings
+□ Probar tu sitio con las credenciales de admin
+
+================================================================================
+
+¡TU PLATAFORMA ZONA HOBBY ESTÁ LISTA! 🚀
+
+Con estos archivos tendrás una plataforma social completa para compartir fotos familiares, de viajes y momentos especiales. ¡Y tú serás el administrador! 👨‍💼📸
