@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zona Hobby - Comparte tus momentos especiales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/lucide@latest/dist/umd/lucide.js">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>📷 Zona Hobby</h1>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="#inicio" class="nav-link active">Inicio</a>
+                <a href="#explorar" class="nav-link">Explorar</a>
+                <a href="#galeria" class="nav-link">Mi Galería</a>
+                <a href="#admin" class="nav-link admin-only">Admin</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-upload" id="btnUpload">
+                    <i data-lucide="camera"></i>
+                    Subir Foto
+                </button>
+                <div class="user-menu" id="userMenu">
+                    <button class="user-avatar" id="userAvatar">
+                        <i data-lucide="user"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#perfil" class="dropdown-item">Mi Perfil</a>
+                        <a href="#configuracion" class="dropdown-item">Configuración</a>
+                        <button id="loginBtn" class="dropdown-item">Iniciar Sesión</button>
+                        <button id="registerBtn" class="dropdown-item">Registrarse</button>
+                        <button id="logoutBtn" class="dropdown-item logout" style="display: none;">Cerrar Sesión</button>
+                    </div>
+                </div>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">Comparte tus momentos especiales</h1>
+                <p class="hero-subtitle">Una plataforma para conectar a través de fotografías familiares, viajes y momentos únicos</p>
+                
+                <!-- Category Filters -->
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="todos">Todos</button>
+                    <button class="filter-btn" data-category="familia">Familia</button>
+                    <button class="filter-btn" data-category="viajes">Viajes</button>
+                    <button class="filter-btn" data-category="momentos">Momentos</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feed Section -->
+        <section class="feed-section">
+            <div class="container">
+                <div class="feed-grid" id="feedGrid">
+                    <!-- Las publicaciones se cargarán dinámicamente aquí -->
+                </div>
+                
+                <div class="load-more-container">
+                    <button class="btn-load-more" id="loadMoreBtn">
+                        Cargar más publicaciones
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Subir Nueva Fotografía</h2>
+                <button class="modal-close" id="closeUploadModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form class="upload-form" id="uploadForm">
+                <div class="form-group">
+                    <label for="photoTitle">Título de la fotografía</label>
+                    <input type="text" id="photoTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoDescription">Descripción / Historia</label>
+                    <textarea id="photoDescription" name="description" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoCategory">Categoría</label>
+                    <select id="photoCategory" name="category" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="familia">Familia</option>
+                        <option value="viajes">Viajes</option>
+                        <option value="momentos">Momentos</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoTags">Etiquetas (separadas por comas)</label>
+                    <input type="text" id="photoTags" name="tags" placeholder="vacaciones, navidad, familia...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoFile">Seleccionar fotografía</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="photoFile" name="photo" accept="image/*" required>
+                        <div class="file-input-display" id="fileDisplay">
+                            <i data-lucide="upload"></i>
+                            <span>Haz clic para seleccionar una imagen</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelUpload">Cancelar</button>
+                    <button type="submit" class="btn-submit">Publicar Fotografía</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="authModalTitle">Iniciar Sesión</h2>
+                <button class="modal-close" id="closeAuthModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn-submit">Iniciar Sesión</button>
+                <p class="auth-switch">
+                    ¿No tienes cuenta? 
+                    <button type="button" id="switchToRegister">Regístrate aquí</button>
+                </p>
+            </form>
+            
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label for="registerName">Nombre completo</label>
+                    <input type="text" id="registerName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña</label>
+                    <input type="password" id="registerPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirmar contraseña</label>
+                    <input type="password" id="registerConfirmPassword" name="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn-submit">Crear Cuenta</button>
+                <p class="auth-switch">
+                    ¿Ya tienes cuenta? 
+                    <button type="button" id="switchToLogin">Inicia sesión aquí</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Photo Detail Modal -->
+    <div class="modal" id="photoDetailModal">
+        <div class="modal-content photo-detail-content">
+            <button class="modal-close" id="closePhotoDetailModal">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="photo-detail-container">
+                <div class="photo-detail-image">
+                    <img id="detailPhotoImage" src="" alt="">
+                </div>
+                <div class="photo-detail-info">
+                    <div class="photo-detail-header">
+                        <h2 id="detailPhotoTitle"></h2>
+                        <div class="photo-actions">
+                            <button class="btn-like" id="detailLikeBtn">
+                                <i data-lucide="heart"></i>
+                                <span id="detailLikeCount">0</span>
+                            </button>
+                            <button class="btn-admin-action admin-only" id="detailDeleteBtn">
+                                <i data-lucide="trash-2"></i>
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                    <p class="photo-description" id="detailPhotoDescription"></p>
+                    <div class="photo-meta">
+                        <span class="photo-category" id="detailPhotoCategory"></span>
+                        <span class="photo-date" id="detailPhotoDate"></span>
+                        <span class="photo-author" id="detailPhotoAuthor"></span>
+                    </div>
+                    <div class="photo-tags" id="detailPhotoTags"></div>
+                    
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <h3>Comentarios</h3>
+                        <div class="comments-list" id="commentsList">
+                            <!-- Los comentarios se cargarán aquí -->
+                        </div>
+                        <form class="comment-form" id="commentForm">
+                            <div class="comment-input-group">
+                                <input type="text" id="commentInput" placeholder="Escribe un comentario..." maxlength="200">
+                                <button type="submit" class="btn-comment">
+                                    <i data-lucide="send"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="container">
+            <div class="admin-header">
+                <h2>Panel de Administración</h2>
+                <p>Gestiona usuarios y contenido de la plataforma</p>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="users">Usuarios</button>
+                <button class="tab-btn" data-tab="posts">Publicaciones</button>
+                <button class="tab-btn" data-tab="stats">Estadísticas</button>
+            </div>
+            
+            <!-- Users Tab -->
+            <div class="admin-content" id="usersTab">
+                <div class="admin-section">
+                    <h3>Gestión de Usuarios</h3>
+                    <div class="users-list" id="usersList">
+                        <!-- Lista de usuarios -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Posts Tab -->
+            <div class="admin-content" id="postsTab" style="display: none;">
+                <div class="admin-section">
+                    <h3>Moderación de Publicaciones</h3>
+                    <div class="posts-moderation-list" id="postsModerationList">
+                        <!-- Lista de publicaciones para moderar -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Tab -->
+            <div class="admin-content" id="statsTab" style="display: none;">
+                <div class="admin-section">
+                    <h3>Estadísticas de la Plataforma</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Total de Usuarios</h4>
+                            <span class="stat-number" id="totalUsers">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total de Publicaciones</h4>
+                            <span class="stat-number" id="totalPosts">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total de Comentarios</h4>
+                            <span class="stat-number" id="totalComments">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Likes Totales</h4>
+                            <span class="stat-number" id="totalLikes">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
