@@ -1,0 +1,37 @@
+{
+  "name": "zona-hobby",
+  "version": "1.0.0",
+  "description": "Plataforma social para compartir fotografías familiares, de viajes y momentos especiales",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve . --port 3000",
+    "build": "echo 'Esta es una aplicación web estática, no requiere build'",
+    "preview": "npx serve . --port 4173"
+  },
+  "keywords": [
+    "social-media",
+    "photography",
+    "family",
+    "travel",
+    "moments",
+    "photo-sharing",
+    "web-app",
+    "javascript",
+    "css3",
+    "html5"
+  ],
+  "author": "MiniMax Agent",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minimax/zona-hobby.git"
+  },
+  "bugs": {
+    "url": "https://github.com/minimax/zona-hobby/issues"
+  },
+  "homepage": "https://zona-hobby.github.io"
+}
